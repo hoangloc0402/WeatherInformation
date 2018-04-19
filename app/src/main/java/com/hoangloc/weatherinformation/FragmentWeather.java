@@ -1,15 +1,11 @@
 package com.hoangloc.weatherinformation;
 
-import android.graphics.Canvas;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,8 +23,11 @@ public class FragmentWeather extends Fragment {
     TextView textViewCurrentLocation, textViewHumidity, textViewWindSpeed;
     TextView textViewCurrentTemperature, textViewTeperatureMinMax;
     TextView textViewUpdated, textViewWarning, textViewWeatherStatus;
-
     ImageView imageViewHumidity, imageViewMinMaxTemperature, imageViewWindSpeed, imageViewWeatherStatus;
+    RecyclerView recyclerViewForecastHour;
+    RecyclerView recyclerViewForecastDay;
+    AdapterRCVForecastHour adapterRCVForecastHour;
+    AdapterRCVForecastDay adapterRCVForecastDay;
     ConstraintLayout consLay;
     int currentTheme = 0;
 
@@ -40,6 +39,12 @@ public class FragmentWeather extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
+
+
+
         updateWeatherData();
     }
 
@@ -55,7 +60,19 @@ public class FragmentWeather extends Fragment {
         textViewWarning =  myView.findViewById(R.id.textViewWarnings);
         textViewWeatherStatus =  myView.findViewById(R.id.textViewWeatherStatus);
         textViewUpdated =  myView.findViewById(R.id.textViewUpdated);
+        recyclerViewForecastHour = myView.findViewById(R.id.recyclerViewForecastHour);
+        recyclerViewForecastDay = myView.findViewById(R.id.recyclerViewForecastDay);
         consLay = myView.findViewById(R.id.constraintLayoutBackground);
+
+        adapterRCVForecastHour = new AdapterRCVForecastHour();
+        recyclerViewForecastHour.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        recyclerViewForecastHour.setAdapter(adapterRCVForecastHour);
+
+        adapterRCVForecastDay = new AdapterRCVForecastDay();
+        recyclerViewForecastDay.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerViewForecastDay.setAdapter(adapterRCVForecastDay);
 
         return myView;
     }
